@@ -231,7 +231,7 @@ pipeline {
         }
         stage('Checkout From Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/writetoritika/DotNet-monitoring.git'
+                git branch: 'main', url: 'https://github.com/naveensilver/DotNet-monitoring.git'
             }
         }
         stage("Sonarqube Analysis ") {
@@ -245,7 +245,7 @@ pipeline {
         stage("quality gate") {
             steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
                 }
             }
         }
@@ -306,7 +306,7 @@ Add this stage to Pipeline Script
 
 
 ```
-stage("Docker Build & tag"){
+        stage("Docker Build & tag"){
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
@@ -317,7 +317,7 @@ stage("Docker Build & tag"){
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image writetoritika/dotnet-monitoring:latest > trivy.txt" 
+                sh "trivy image naveensilver/dotnet-monitoring:latest > trivy.txt" 
             }
         }
         stage("Docker Push"){
@@ -343,6 +343,14 @@ Stage view
 Step 9 — Deploy the image using Docker
 
 Add this stage to your pipeline syntax
+
+```
+        stage("Deploy to container"){
+            steps{
+                sh "docker run -d --name dotnet -p 5000:5000 naveensilver/dotnet-monitoring:latest"
+            } 
+        }
+```
 
 
 You will see the Stage View like this,
@@ -443,7 +451,6 @@ pipeline {
                 sh "docker run -d --name dotnet -p 5000:5000 naveensilver/dotnet-monitoring:latest"
             } 
         }
-
     }
 }
 ```
