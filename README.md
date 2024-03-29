@@ -369,7 +369,7 @@ When all stages in docker are successfully created then you will see the result 
 
 ![34](https://github.com/naveensilver/DevSecOps_CI-CD_Project/assets/120022254/8c87d479-5b5c-4b9e-8fd6-402301214cfa)
 
-Stage view
+You will see Stage view like this,
 
 ![35](https://github.com/naveensilver/DevSecOps_CI-CD_Project/assets/120022254/00f92e98-342e-4e06-bbf1-fff62055c219)
 
