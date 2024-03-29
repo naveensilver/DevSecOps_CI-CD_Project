@@ -114,7 +114,7 @@ Now, Login to SonarQube by using `<Ec2_Public_IP>:9000`
 
 ![10](https://github.com/naveensilver/DevSecOps_CI-CD_Project/assets/120022254/713a9032-1e7f-4321-8c3e-e05b426828df)
 
-Note: By default username and password is 'admin` we can change password.
+Note: By default username and password is `admin` we can change password.
 
 Username : admin 
 
