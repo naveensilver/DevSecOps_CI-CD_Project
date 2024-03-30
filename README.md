@@ -405,6 +405,71 @@ Take-Two Ubuntu 20.04 instances one for k8s master and the other one for worker.
 
 Install Kubectl on Jenkins machine as well.
 
+```
+sudo apt update
+sudo apt install curl
+curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+```
+
+To Install Kubernetes Cluster on Ubuntu 22.04 (Master & Slave) 
+
+Visit >> https://www.linuxtechi.com/install-kubernetes-on-ubuntu-22-04/
+
+After installing Kuberneter Cluster, 
+
+Go to Master Node
+
+```
+cd .kube/
+cat config
+```
+Copy the config file to Jenkins master or the local file manager and save it.
+
+[Here, i am saving it in Local file manager i.e., k8s.txt]
+
+Now, Install Kubernetes Plugins
+
+![41](https://github.com/naveensilver/DevSecOps_CI-CD_Project/assets/120022254/094fe5c7-1496-4864-9829-937f30a9d397)
+
+Once it’s installed successfully. 
+
+Go to manage Jenkins → manage credentials → Click on Jenkins global → add credentials
+
+![40](https://github.com/naveensilver/DevSecOps_CI-CD_Project/assets/120022254/e008c037-ae51-4c42-955d-3611ac274270)
+
+The final step to deploy on the Kubernetes cluster, add this stage to the pipeline.
+
+```
+stage('Deploy to k8s'){
+            steps{
+                dir('K8S') {
+                  withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                    sh 'kubectl apply -f deployment.yaml'    
+                   }
+                }   
+            }
+        }
+```
+
+Before starting a new build remove Old containers. `docker rm <contName>`
+
+Output 
+
+```
+kubectl get svc
+#copy service port 
+<worker-ip:svc port>
+```
+
+Check the Output in All the servers.
+
+Step 12 — Terminate the AWS EC2 Instance
+
+Lastly, do not forget to terminate the AWS EC2 Instance.
+
+
 ### Final Pipeline 
 
 ```
@@ -481,12 +546,21 @@ pipeline {
                 sh "docker run -d --name dotnet -p 5000:5000 naveensilver/dotnet-monitoring:latest"
             } 
         }
+        stage('Deploy to k8s'){
+            steps{
+                dir('K8S') {
+                  withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                    sh 'kubectl apply -f deployment.yaml'    
+                   }
+                }   
+            }
+        }
     }
 }
 ```
 
+Here is the GitHub for this project : https://github.com/naveensilver/DotNet-monitoring.git
 
-
-[GitHub Repo : https://github.com/naveensilver/DotNet-monitoring.git]
+Hope this blog was useful. If yes, please follow me for more content on DevOps. Thank you.
 
 [Project Source : https://medium.com/aws-in-plain-english/real-time-devsecops-pipeline-for-a-dotnet-web-app-ece99ba14219]
