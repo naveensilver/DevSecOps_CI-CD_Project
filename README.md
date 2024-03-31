@@ -560,6 +560,30 @@ pipeline {
     }
 }
 ```
+### Explanation of Pipeline Stages:
+
+The Given declarative Jenkins Pipeline script written in Groovy, which defines a continuous delivery pipeline for a .NET web application. Let's break down the script step by step:
+
+1. **Agent and Tools:**
+   - The pipeline is configured to run on any available agent and uses JDK 17 as the specified tool.
+
+2. **Environment:**
+   - The `SCANNER_HOME` environment variable is set to the location of the Sonar Scanner tool using the `tool` directive.
+
+3. **Stages:**
+   - **Clean Workspace:** This stage cleans the workspace before the build, ensuring a fresh start for the pipeline.
+   - **Checkout From Git:** The pipeline checks out the source code from the specified Git repository (`https://github.com/naveensilver/DotNet-monitoring.git`).
+   - **Sonarqube Analysis:** This stage performs a SonarQube analysis on the codebase using the configured SonarQube server and scanner. It sets project name and key for the analysis.
+   - **Quality Gate:** The code waits for the SonarQube quality gate status, allowing the pipeline to continue or abort based on the quality gate result.
+   - **TRIVY File Scan:** Trivy is used to scan the filesystem for vulnerabilities, and the results are saved to a report file.
+   - **OWASP Dependency Check:** This stage performs a security check for project dependencies using OWASP Dependency Check, generating a report in XML format.
+   - **Docker Build & Tag:** The pipeline builds and tags a Docker image using the specified credentials and `make image` command.
+   - **TRIVY:** Trivy is used to scan the Docker image for vulnerabilities, and the results are saved to a text file named `trivy.txt`.
+   - **Docker Push:** The Docker image is pushed to the specified Docker registry using the credentials and `make push` command.
+   - **Deploy to Container:** The Docker image is run as a container (named `dotnet`) on port 5000.
+   - **Deploy to k8s:** The pipeline deploys the Kubernetes manifest described in the `deployment.yaml` file to a Kubernetes cluster.
+
+Overall, the pipeline automates the entire process of building, testing, and deploying the .NET web application, integrating security checks and containerization for efficient continuous delivery.  
 
 Here is the GitHub for this project : https://github.com/naveensilver/DotNet-monitoring.git
 
