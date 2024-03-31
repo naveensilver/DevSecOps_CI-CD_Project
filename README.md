@@ -4,7 +4,7 @@
 
 ## Architecture
 
-![DevSecOps_DotNet](https://github.com/naveensilver/DevSecOps_CI-CD_Project/assets/120022254/c7c43695-e58d-49d2-b198-c48b372d59ba)
+![DevSecOps_Dot-Net_Web-App](https://github.com/naveensilver/DevSecOps_CI-CD_Project/assets/120022254/6efe4fe9-17ee-41b2-87fd-190b1d64699a)
 
 Hello friends, we will be deploying a .Net-based application. This is an everyday use case scenario used by several organizations. We will be using Jenkins as a CICD tool and deploying our application on a Docker Container and Kubernetes cluster. Hope this detailed blog is useful.
 
